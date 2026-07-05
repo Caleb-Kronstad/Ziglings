@@ -82,11 +82,12 @@ pub fn main() !void {
         defer handle1.join();
 
         // Second thread to calculate the minus numbers.
-        ???
+        const handle2 = try std.Thread.spawn(.{}, thread_pi, .{&pi_minus, 3, count});
+        defer handle2.join();
     }
 
     // Here we add up the results.
-    std.debug.print("PI ≈ {d:.8} (error = {e:.1})\n", .{ pi_plus - pi_minus, std.math.pi - (pi_plus - pi_minus) });
+    std.debug.print("PI ≈ {d:.50} (error = {e:.1})\n", .{ pi_plus - pi_minus, std.math.pi - (pi_plus - pi_minus) });
 }
 
 fn thread_pi(pi: *f64, begin: u64, count: u64) !void {
